@@ -3,7 +3,10 @@
 const ShortAnswer = () => {
 
     return (
-        <input type="text" maxLength={50} />
+        <label>
+            <input className={`border`} type="text" maxLength={50} />
+            세
+        </label>
     );
 }
 

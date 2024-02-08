@@ -10,20 +10,17 @@ import Essay from "@/components/Survey/Options/Essay";
 
 type QuestionProps = {
     question: QuestionType;
-    onQuestionChange: (question: QuestionRequest) => void;
 }
 
-const Question = ({question, onQuestionChange}: QuestionProps) => {
-
-    const [selectedOption, setSelectedOption] = useState('');
+const Question = ({question}: QuestionProps) => {
 
     const handleOptionChange = (value: string) => {
-        const newQuestion = {
-            ...question,
+        const newQuestion: QuestionRequest = {
+            id: question.id,
             answer: value,
         };
 
-        onQuestionChange(newQuestion);
+        // onQuestionChange(newQuestion);
     };
 
     switch (question.type) {

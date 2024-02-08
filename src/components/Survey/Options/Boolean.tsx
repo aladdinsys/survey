@@ -11,7 +11,7 @@ type BooleanProps = {
 const Boolean = ({ options, questionId, onOptionChange }: Readonly<BooleanProps>) => {
 
     return (
-        <div>
+        <div className={"flex flex-row gap-2 p-2"}>
             {options.map((option, index) =>
                 <label key={index}>
                     <input type="radio" name={String(questionId)} value={option.value}

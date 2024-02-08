@@ -1,52 +1,24 @@
 'use client';
 
-import React, {useState} from "react";
-import {SectionType, QuestionType} from "@/types/survey";
+import React, {useEffect, useState} from "react";
+import {SectionType, QuestionType, QuestionRequest, SectionRequest} from "@/types/survey";
 import ProceedButton from "@/components/Survey/ProceedButton";
-import Question from "@/components/Survey/Question";
-import {useRecoilState} from "recoil";
-import {surveyAnswerState} from "@/recoil/SurveyAnswerAtom";
+import Question from "@/components/Survey/Question/Question";
+import useSectionStore from "@/store/survey";
 
 type SectionsProps = {
     sections: Array<SectionType>;
+    onSectionChange: (section: SectionRequest) => void;
 }
 
-const Section = ({ sections }: SectionsProps) => {
+const Section = ({ sections, onSectionChange }: SectionsProps) => {
 
-    const [sectionId, setSectionId] = useState(1);
-    const [values, setValues] = useState({});
-
-    const handleSectionChange = (id: number) => {
-
-    }
-
-    const nextSection = () => {
-        if (sectionId == sections.length) {
-            return;
-        }
-
-        setSectionId(prevState => prevState + 1);
-    }
-    const prevSection = () => {
-        if (sectionId == sections[0].id) {
-            return;
-        }
-        setSectionId(prevState => prevState - 1);
-    }
-
-    const onChange = (questionId: number, value: string) => {
-        setValues(prevState => {
-            return {
-                ...prevState,
-                [questionId]: value
-            }
-        });
-    }
+    const { currentSection, prevSection, nextSection, toPrevSection, toNextSection  } = useSectionStore();
 
     return (
         <div className={`flex flex-col p-4 gap-2 select-none`}>
             {sections.map((section: SectionType) =>
-                sectionId == section.id &&
+                currentSection == section.id &&
                 <div key={section.id}>
                     <h2>{section.title}</h2>
                     <p>{section.description}</p>
@@ -54,14 +26,13 @@ const Section = ({ sections }: SectionsProps) => {
                         <Question
                             key={question.id}
                             question={question}
-                            onQuestionChange={values}
                         />
                     )}
                 </div>
             )}
             <div className={`flex flex-row gap-2`}>
-                <ProceedButton text={'이전'} handle={prevSection} />
-                <ProceedButton text={'다음'} handle={nextSection} />
+                <ProceedButton text={'이전'} handle={toPrevSection} />
+                <ProceedButton text={'다음'} handle={toNextSection} />
             </div>
         </div>
     );
