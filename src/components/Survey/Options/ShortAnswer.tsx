@@ -1,10 +1,15 @@
 'use client'
 
-const ShortAnswer = () => {
+type ShortProps = {
+    onInput: (value: string) => void;
+}
+
+const ShortAnswer = ({onInput}: Readonly<ShortProps>)=> {
 
     return (
         <label>
-            <input className={`border`} type="text" maxLength={50} />
+            <input onInput={(event) => onInput(event.currentTarget.value) }
+                   className={`border`} type="text" maxLength={50} />
             세
         </label>
     );

@@ -1,9 +1,13 @@
 'use client'
 
-const Essay = () => {
+type EssayProps = {
+    onInput: (value: string) => void;
+}
+
+const Essay = ({onInput}: Readonly<EssayProps>) => {
 
     return (
-        <textarea />
+        <textarea onInput={(event) => onInput(event.currentTarget.value) } />
     );
 }
 
