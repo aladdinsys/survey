@@ -3,27 +3,27 @@
 import React, {FC, useEffect} from "react";
 import ProceedButton from "@/components/Survey/ProceedButton";
 import SurveyTitle from "@/components/Survey/SurveyTitle";
-import Section from "@/components/Survey/Section/Section";
-import type {SurveyResponse} from "@/apis/interfaces/survey";
-import {SectionType, SurveyRequest} from "@/types/survey";
-import useSectionStore from "@/store/survey";
-import useSectionRequestStore from "@/store/section-request";
+import SectionComponent from "@/components/Survey/Section/Section";
+import type {SurveyResponse} from "@/apis/interfaces/survey-response";
+import {Section, SurveyParam} from "@/types/survey";
+import useSectionStateStore from "@/store/section-state";
+import useSurveyParamStore from "@/store/survey-params";
 
 interface SurveyProps {
     survey: SurveyResponse;
 }
 const SurveyComponent: FC<SurveyProps> = ({survey}) => {
 
-    const { currentSection, toPrevSection, toNextSection  } = useSectionStore();
-    const { id, setId, setSections, sections, setQuestion } = useSectionRequestStore();
+    const { currentSection, addPrevSection, setCurrentSection } = useSectionStateStore();
+    const { id, setSurveyId, setSections, sections, setQuestion } = useSurveyParamStore();
 
     useEffect(() => {
-        setId(survey.id);
+        setSurveyId(survey.id);
         setSections(JSON.parse(survey.content));
-    }, [setId, setSections, survey]);
+    }, [setSurveyId, setSections, survey]);
 
     const onSubmit = () => {
-        const survey: SurveyRequest = {
+        const survey: SurveyParam = {
             id: id,
             sections: sections.map((section) => ({
                 id: section.id,
@@ -42,7 +42,33 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         setQuestion(sectionId, questionId, answer);
     }
 
-    const content: Array<SectionType> = JSON.parse(survey.content);
+    const getNextSection = () => {
+        const thisSection = content.find((section: Section) => section.id == currentSection) as Section;
+        const answerRequests = sections.find((section) => section.id == currentSection)?.questions;
+
+        return thisSection.questions.reduce((acc, question) => {
+            if (question.type == 'MULTIPLE_CHOICE') {
+                const answer = answerRequests?.find((answer) => answer.id == question.id)?.answer;
+                const option = question.options.find((option) => option.value == answer);
+                if (option?.nextSection) {
+                    return option.nextSection;
+                }
+            }
+            return acc;
+        }, 0);
+
+    }
+
+    const toPrev = () => {
+
+    }
+    const toNext = () => {
+        const nextSection = getNextSection();
+        console.log(nextSection);
+        setCurrentSection(nextSection);
+    }
+
+    const content: Array<Section> = JSON.parse(survey.content);
 
     return (
         <>
@@ -50,16 +76,16 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
 
             </SurveyTitle>
             <div className={`flex flex-col p-4 gap-2 select-none`}>
-                {content.map((section: SectionType) =>
+                {content.map((section: Section) =>
                     currentSection == section.id &&
                     <div key={section.id} className={`flex flex-col gap-2`}>
-                        <Section section={section} onChoiceChange={onChoiceChange} />
+                        <SectionComponent section={section} onChoiceChange={onChoiceChange} />
                     </div>
                 )}
             </div>
             <div className={`flex flex-row gap-2`}>
-                <ProceedButton text={'이전'} handle={toPrevSection}/>
-                <ProceedButton text={'다음'} handle={toNextSection}/>
+                <ProceedButton text={'이전'} handle={toPrev}/>
+                <ProceedButton text={'다음'} handle={toNext}/>
             </div>
             <ProceedButton text={"보내기"} handle={onSubmit}/>
         </>

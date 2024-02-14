@@ -1,22 +1,22 @@
 import { create } from 'zustand';
-import {SectionRequest, SectionType} from "@/types/survey";
+import {SectionParam, Section} from "@/types/survey";
 
-type SurveyRequest = {
+type SurveyParam = {
     id: number;
 
-    setId: (id: number) => void;
-    setSections: (sections: Array<SectionType>) => void;
+    setSurveyId: (id: number) => void;
+    setSections: (sections: Array<Section>) => void;
 
-    sections: Array<SectionRequest>;
+    sections: Array<SectionParam>;
     setQuestion: (sectionId: number, questionId: number, answer: any) => void;
 }
 
-const useSectionRequestStore = create<SurveyRequest>((set) => ({
+const useSurveyParamStore = create<SurveyParam>((set) => ({
     id: 0,
     sections: [],
 
-    setId: (id: number) => { set({id: id}); },
-    setSections: (sections: Array<SectionType>) => {
+    setSurveyId: (id: number) => { set({id: id}); },
+    setSections: (sections: Array<Section>) => {
         set({sections: sections.map((section) => ({id: section.id, questions: section.questions.map((question) => ({id: question.id, answer: null}))}))});
     },
     setQuestion: (sectionId: number, questionId: number, answer: any) => {
@@ -42,4 +42,4 @@ const useSectionRequestStore = create<SurveyRequest>((set) => ({
         );
     }
 }));
-export default useSectionRequestStore;
+export default useSurveyParamStore;

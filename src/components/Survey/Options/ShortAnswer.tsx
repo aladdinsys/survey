@@ -3,7 +3,6 @@
 type ShortProps = {
     onInput: (value: string) => void;
 }
-
 const ShortAnswer = ({onInput}: Readonly<ShortProps>)=> {
 
     return (

@@ -1,7 +1,7 @@
 'use client';
 
-import React, {useState} from "react";
-import {QuestionRequest, QuestionType, SectionRequest, SectionType} from "@/types/survey";
+import React from "react";
+import {Question, Section} from "@/types/survey";
 import FiveLikert from "@/components/Survey/Options/FiveLikert";
 import MultipleChoice from "@/components/Survey/Options/MultipleChoice";
 import Boolean from "@/components/Survey/Options/Boolean";
@@ -9,8 +9,8 @@ import ShortAnswer from "@/components/Survey/Options/ShortAnswer";
 import Essay from "@/components/Survey/Options/Essay";
 
 type QuestionProps = {
-    section: SectionType;
-    question: QuestionType;
+    section: Section;
+    question: Question;
     onChoiceChange: (sectionId: number, questionId: number, answer: any) => void;
 }
 

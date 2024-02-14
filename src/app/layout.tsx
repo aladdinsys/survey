@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import {ChildrenProps} from "@/types";
-import MainFooter from "@/components/Footer";
-import Nav from "@/components/Nav";
+import MainFooter from "@/components/Footer/Footer";
+import Nav from "@/components/Nav/Nav";
 
 export const metadata: Metadata = {
   title: "알라딘 설문조사",

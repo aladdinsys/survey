@@ -9,3 +9,4 @@ export type SurveyResponse = {
     "updatedAt": string;
     "publishedAt": string;
 }
+

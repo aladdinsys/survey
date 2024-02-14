@@ -1,23 +1,23 @@
 export type SurveyType = {
     id: number;
     title: string;
-    sections: SectionType[];
+    sections: Section[];
     description: string;
 }
 
-export type SectionType = {
+export type Section = {
     id: number;
     title: string;
-    questions: QuestionType[];
+    questions: Question[];
     description: string;
 }
 
-export type QuestionTypeConstant =
+export type QuestionType =
     'FIVE-LIKERT' | 'BOOLEAN' | 'SHORT' | 'ESSAY' | 'MULTIPLE_CHOICE' | '';
 
-export type QuestionType = {
+export type Question = {
     id: number;
-    type: QuestionTypeConstant;
+    type: QuestionType;
     question_text: string;
     options: Array<any>;
     description: string;
@@ -29,17 +29,23 @@ export type MultipleChoiceOption = {
     nextSection?: string;
 }
 
-export type SurveyRequest = {
+
+
+
+
+
+
+export type SurveyParam = {
     id: number;
-    sections: Array<SectionRequest>;
+    sections: Array<SectionParam>;
 }
 
-export type SectionRequest = {
+export type SectionParam = {
     id: number;
-    questions: Array<QuestionRequest>;
+    questions: Array<QuestionParam>;
 }
 
-export type QuestionRequest = {
+export type QuestionParam = {
     id: number;
     answer: any;
 }
