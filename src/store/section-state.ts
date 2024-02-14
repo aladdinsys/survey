@@ -5,7 +5,9 @@ type SectionState = {
     prevSections: number[];
 
     setCurrentSection: (currentSection: number) => void;
-    addPrevSection: (prevSection: number[]) => void;
+
+    addPrevSection: (section: number) => void;
+    setPrevSections: (prevSections: number[]) => void;
 };
 
 const useSectionStateStore = create<SectionState>((set) => ({
@@ -13,7 +15,11 @@ const useSectionStateStore = create<SectionState>((set) => ({
     prevSections: [],
 
     setCurrentSection: (currentSection: number) => set({ currentSection }),
-    addPrevSection: (prevSection: number[]) => set({ prevSections: [...prevSection] }),
+    addPrevSection: (section: number) => set((state) => ({
+        prevSections: [...state.prevSections, section]
+    })),
+
+    setPrevSections: (prevSections: number[]) => set({ prevSections }),
 
 }));
 

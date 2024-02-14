@@ -1,15 +1,16 @@
 type ProceedButtonProps = {
     text: string;
-    handle: () => void;
+    handle?: () => void;
+    className?: string;
 }
 
-const ProceedButton = ({text, handle}: ProceedButtonProps) => {
+const ProceedButton = ({text, className, handle}: ProceedButtonProps) => {
     return (
         <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handle()}
-            >
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${className}`}
+            onClick={(event) => handle ? handle() : null}
+        >
                 {text}
         </button>
     );

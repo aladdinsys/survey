@@ -23,9 +23,12 @@ export type Question = {
     description: string;
 }
 
-export type MultipleChoiceOption = {
-    value: any;
+export type Option = {
     label: string;
+    value: any;
+}
+
+export type MultipleChoiceOption = Option & {
     nextSection?: string;
 }
 
