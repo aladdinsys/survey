@@ -1,12 +1,12 @@
 'use client';
 
 import React from "react";
-import type {Section, Question, SectionParam, QuestionParam} from "@/types/survey";
+import type {Section, Question } from "@/types/survey";
 import QuestionComponent from "@/components/Survey/Question/Question";
 
 type SectionProps = {
     section: Section;
-    onChoiceChange: (sectionId: number, questionId: number, answer: any) => void;
+    onChoiceChange: (sectionId: number, questionId: number, answer: string) => void;
 }
 
 const Section = ({ section, onChoiceChange }: SectionProps) => {

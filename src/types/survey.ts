@@ -32,12 +32,6 @@ export type MultipleChoiceOption = Option & {
     nextSection?: string;
 }
 
-
-
-
-
-
-
 export type SurveyParam = {
     id: number;
     sections: Array<SectionParam>;

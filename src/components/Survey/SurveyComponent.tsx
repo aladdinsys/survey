@@ -4,7 +4,7 @@ import React, {FC, useEffect} from "react";
 import ProceedButton from "@/components/Survey/ProceedButton";
 import SurveyTitle from "@/components/Survey/SurveyTitle";
 import SectionComponent from "@/components/Survey/Section/Section";
-import type {SurveyResponse} from "@/apis/interfaces/survey-response";
+import type {SurveyResponse} from "@/services/types/survey-response";
 import {Section, SurveyParam} from "@/types/survey";
 import useSectionStateStore from "@/store/section-state";
 import useSurveyParamStore from "@/store/survey-params";
@@ -24,7 +24,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         setSections(JSON.parse(survey.content));
     }, [setSurveyId, setSections, survey]);
 
-    const onChoiceChange = (sectionId: number, questionId: number, answer: any) => {
+    const onChoiceChange = (sectionId: number, questionId: number, answer: string) => {
         setQuestion(sectionId, questionId, answer);
     }
 
@@ -59,16 +59,34 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         setCurrentSection(nextSection);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         const survey: SurveyParam = {
             id: id,
             sections: sections.map((section) => ({
                 id: section.id,
                 questions: section.questions.map((question) => ({
                     id: question.id,
-                    answer: question.answer,
+                    answer: String(question.answer),
                 })),
             })),
+        }
+
+        console.log(survey);
+
+        try {
+            const response = await fetch(`/surveys/_doc/${survey.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(survey),
+            });
+
+
+            const updatedResult = await response.json();
+            console.log(updatedResult);
+        } catch (error) {
+            console.error(error);
         }
     }
 

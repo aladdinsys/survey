@@ -1,7 +1,7 @@
 import React from "react";
-import {get} from "@/apis/fetch";
-import {Response} from "@/apis/interfaces/response";
-import {SurveyResponse} from "@/apis/interfaces/survey-response";
+import {get} from "@/services/fetch";
+import {Response} from "@/services/types/response";
+import {SurveyResponse} from "@/services/types/survey-response";
 import SurveyComponent from "@/components/Survey/SurveyComponent";
 
 const Survey = async (props: any) => {

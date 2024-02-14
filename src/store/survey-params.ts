@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import {SectionParam, Section} from "@/types/survey";
+import {SectionParam, Section, QuestionParam} from "@/types/survey";
 
 type SurveyParam = {
     id: number;
@@ -8,7 +8,7 @@ type SurveyParam = {
     setSections: (sections: Array<Section>) => void;
 
     sections: Array<SectionParam>;
-    setQuestion: (sectionId: number, questionId: number, answer: any) => void;
+    setQuestion: (sectionId: number, questionId: number, answer: string) => void;
 }
 
 const useSurveyParamStore = create<SurveyParam>((set) => ({
@@ -19,24 +19,24 @@ const useSurveyParamStore = create<SurveyParam>((set) => ({
     setSections: (sections: Array<Section>) => {
         set({sections: sections.map((section) => ({id: section.id, questions: section.questions.map((question) => ({id: question.id, answer: null}))}))});
     },
-    setQuestion: (sectionId: number, questionId: number, answer: any) => {
+    setQuestion: (sectionId: number, questionId: number, answer: string) => {
         set((state) => ({
-            sections: state.sections.map((s) => {
-                if (s.id === sectionId) {
+            sections: state.sections.map((sectionParam) => {
+                if (sectionParam.id === sectionId) {
                     return {
-                        ...s,
-                        questions: s.questions.map((q) => {
-                            if (q.id === questionId) {
+                        ...sectionParam,
+                        questions: sectionParam.questions.map((questionParam: QuestionParam) => {
+                            if (questionParam.id === questionId) {
                                 return {
-                                    ...q,
+                                    ...questionParam,
                                     answer,
                                 };
                             }
-                            return q;
+                            return questionParam;
                         }),
                     };
                 }
-                return s;
+                return sectionParam;
             }),
         })
         );
