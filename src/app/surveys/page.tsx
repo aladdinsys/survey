@@ -4,7 +4,7 @@ import {Response} from "@/services/types/response";
 import {SurveyResponse} from "@/services/types/survey-response";
 import SurveyComponent from "@/components/Survey/SurveyComponent";
 
-const Survey = async () => {
+const SurveyWithoutId = async () => {
 
     const response: Response<SurveyResponse> = await get<Response<SurveyResponse>>(`/open-api/survey/ba68cd2c-ce90-4174-9691-b746c24cfae0`);
     const surveyResponse: SurveyResponse = response.result;
@@ -13,4 +13,4 @@ const Survey = async () => {
         <SurveyComponent survey={surveyResponse}/>
     );
 }
-export default Survey;
+export default SurveyWithoutId;
