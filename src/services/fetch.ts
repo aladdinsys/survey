@@ -1,7 +1,7 @@
 type HttpMethods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
-// const baseUrl: string = process.env.SURVEY_API as string;
-const baseUrl: string = 'http://aladdinsys.iptime.org:48090';
+const baseUrl: string = process.env.SURVEY_API as string;
+// const baseUrl: string = 'http://aladdinsys.iptime.org:48090';
 
 abstract class HttpMethod {
 
