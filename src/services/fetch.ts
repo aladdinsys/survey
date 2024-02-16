@@ -1,6 +1,6 @@
 type HttpMethods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
-const baseUrl: string = `http://192.168.0.21:8080`;
+const baseUrl: string = process.env.SURVEY_API as string;
 
 abstract class HttpMethod {
 
