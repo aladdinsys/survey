@@ -39,8 +39,17 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: ".next/"
         target: /home/user/survey_app/
-        script: |
-          npx kill-port 3000
+        rm: true
+
+    - name: Kill Port
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: npx kill-port 3000
 
     - name: SSH Action
       uses: appleboy/ssh-action@master
