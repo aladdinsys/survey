@@ -37,7 +37,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        source: ".next/"
+        source: ".next/, package.json, package-lock.json, public/, .env.*"
         target: /home/user/survey_app/
         rm: true
 
@@ -49,7 +49,9 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: npx kill-port 3000
+        script: |
+          npx kill-port 3000
+          npm install
 
     - name: SSH Action
       uses: appleboy/ssh-action@master
