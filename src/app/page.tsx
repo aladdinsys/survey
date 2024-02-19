@@ -6,7 +6,7 @@ export default function Home() {
           <section className="p-8 flex flex-col h-full justify-center">
               <h1 className="text-3xl font-bold font-poppins">섹션</h1>
               <p className="text-lg">
-                  설문 조사 영역
+                  설문 조사 영역 test 3
               </p>
           </section>
       </MainLayout>
