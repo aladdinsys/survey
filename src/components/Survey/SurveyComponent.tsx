@@ -8,6 +8,7 @@ import type {SurveyResponse} from "@/services/types/survey-response";
 import {Section, SurveyParam} from "@/types/survey";
 import useSectionStateStore from "@/store/section-state";
 import useSurveyParamStore from "@/store/survey-params";
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface SurveyProps {
@@ -66,7 +67,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         const survey: SurveyParam = { surveyId, sections };
 
         try {
-            const response = await fetch(`/surveys/_doc/${survey.surveyId}`, {
+            const response = await fetch(`/surveys/_doc/${uuidv4()}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
