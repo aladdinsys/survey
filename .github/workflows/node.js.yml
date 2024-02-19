@@ -50,6 +50,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          cd /home/user/survey_app/
           npx kill-port 3000
           npm install
 
