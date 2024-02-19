@@ -37,5 +37,5 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        source: "./next"
-        target: /home/user/survey_app/.next/
+        source: ".next/"
+        target: /home/user/survey_app/
