@@ -39,3 +39,16 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: ".next/"
         target: /home/user/survey_app/
+
+    - name: SSH Action
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/user/survey_app/
+          npx kill-port 3000
+          nohup npm start > nohup.out 2> nohup.err < /dev/null &

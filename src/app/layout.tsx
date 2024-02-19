@@ -6,7 +6,7 @@ import MainFooter from "@/components/Footer/Footer";
 import Nav from "@/components/Nav/Nav";
 
 export const metadata: Metadata = {
-  title: "알라딘 설문조사 시스템",
+  title: "알라딘 시스템 설문조사",
   description: "알라딘 시스템 설문조사",
 };
 
