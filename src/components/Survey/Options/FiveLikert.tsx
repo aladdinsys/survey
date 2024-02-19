@@ -1,10 +1,10 @@
 'use client'
 
-import {MultipleChoiceOption} from "@/types/survey";
+import {Option} from "@/types/survey";
 
 type FiveLikertProps = {
-    questionId: number;
-    options: Array<MultipleChoiceOption>;
+    questionId: string;
+    options: Array<Option>;
     onOptionChange: (value: string) => void;
 }
 

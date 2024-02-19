@@ -6,7 +6,7 @@ import QuestionComponent from "@/components/Survey/Question/Question";
 
 type SectionProps = {
     section: Section;
-    onChoiceChange: (sectionId: number, questionId: number, answer: string) => void;
+    onChoiceChange: (sectionId: string, questionId: string, answer: string) => void;
 }
 
 const Section = ({ section, onChoiceChange }: SectionProps) => {

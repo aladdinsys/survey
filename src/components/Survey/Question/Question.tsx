@@ -11,7 +11,7 @@ import Essay from "@/components/Survey/Options/Essay";
 type QuestionProps = {
     section: Section;
     question: Question;
-    onChoiceChange: (sectionId: number, questionId: number, answer: string) => void;
+    onChoiceChange: (sectionId: string, questionId: string, answer: string) => void;
 }
 
 const Question = ({section, question, onChoiceChange}: QuestionProps) => {

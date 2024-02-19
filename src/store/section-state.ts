@@ -1,25 +1,25 @@
 import { create } from 'zustand';
 
 type SectionState = {
-    currentSection: number;
-    prevSections: number[];
+    currentSection: string;
+    prevSections: string[];
 
-    setCurrentSection: (currentSection: number) => void;
+    setCurrentSection: (currentSection: string) => void;
 
-    addPrevSection: (section: number) => void;
-    setPrevSections: (prevSections: number[]) => void;
+    addPrevSection: (section: string) => void;
+    setPrevSections: (prevSections: string[]) => void;
 };
 
 const useSectionStateStore = create<SectionState>((set) => ({
-    currentSection: 1,
+    currentSection: '1',
     prevSections: [],
 
-    setCurrentSection: (currentSection: number) => set({ currentSection }),
-    addPrevSection: (section: number) => set((state) => ({
+    setCurrentSection: (currentSection: string) => set({ currentSection }),
+    addPrevSection: (section: string) => set((state) => ({
         prevSections: [...state.prevSections, section]
     })),
 
-    setPrevSections: (prevSections: number[]) => set({ prevSections }),
+    setPrevSections: (prevSections: string[]) => set({ prevSections }),
 
 }));
 

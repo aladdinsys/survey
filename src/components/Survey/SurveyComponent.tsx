@@ -9,13 +9,14 @@ import {Section, SurveyParam} from "@/types/survey";
 import useSectionStateStore from "@/store/section-state";
 import useSurveyParamStore from "@/store/survey-params";
 
+
 interface SurveyProps {
     survey: SurveyResponse;
 }
 const SurveyComponent: FC<SurveyProps> = ({survey}) => {
 
-    const { currentSection, prevSections,  setCurrentSection, addPrevSection, setPrevSections, } = useSectionStateStore();
-    const { id, setSurveyId, setSections, sections, setQuestion } = useSurveyParamStore();
+    const { currentSection, prevSections,  setCurrentSection, addPrevSection } = useSectionStateStore();
+    const { surveyId, setSurveyId, setSections, sections, setQuestion } = useSurveyParamStore();
 
     const content: Array<Section> = JSON.parse(survey.content);
 
@@ -24,7 +25,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         setSections(JSON.parse(survey.content));
     }, [setSurveyId, setSections, survey]);
 
-    const onChoiceChange = (sectionId: number, questionId: number, answer: string) => {
+    const onChoiceChange = (sectionId: string, questionId: string, answer: string) => {
         setQuestion(sectionId, questionId, answer);
     }
 
@@ -32,18 +33,20 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         const currentIndex = content.findIndex((section: Section) => section.id == currentSection);
 
         const thisSection = content[currentIndex];
-        const nextSection = content[currentIndex + 1];
-        const answerRequests = sections.find((section) => section.id == currentSection)?.questions;
 
         return thisSection.questions.reduce((acc, question) => {
-            const answer = answerRequests?.find((answer) => answer.id == question.id)?.answer;
-            const option = question.options.find((option) => option.value == answer);
-            if (option?.nextSection) {
-                return option.nextSection;
-            }
 
-            return acc;
-        }, nextSection.id);
+            const selectedValue = sections[thisSection.id][question.id];
+
+            const result = question.options.filter((option) => option.value == selectedValue)
+                                .filter((option) => option.nextSection)
+                                .map((option) => option.nextSection! )
+                                .sort((a, b) => Number(a) - Number(b))[0];
+
+            return result ? result : acc;
+
+        }, content[currentIndex + 1] ? content[currentIndex + 1].id : currentSection);
+
 
     }
 
@@ -60,21 +63,10 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
     }
 
     const onSubmit = async () => {
-        const survey: SurveyParam = {
-            id: id,
-            sections: sections.map((section) => ({
-                id: section.id,
-                questions: section.questions.map((question) => ({
-                    id: question.id,
-                    answer: String(question.answer),
-                })),
-            })),
-        }
-
-        console.log(survey);
+        const survey: SurveyParam = { surveyId, sections };
 
         try {
-            const response = await fetch(`/surveys/_doc/${survey.id}`, {
+            const response = await fetch(`/surveys/_doc/${survey.surveyId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,12 +1,12 @@
 export type SurveyType = {
-    id: number;
+    id: string;
     title: string;
     sections: Section[];
     description: string;
 }
 
 export type Section = {
-    id: number;
+    id: string;
     title: string;
     questions: Question[];
     description: string;
@@ -16,33 +16,28 @@ export type QuestionType =
     'FIVE-LIKERT' | 'BOOLEAN' | 'SHORT' | 'ESSAY' | 'MULTIPLE_CHOICE' | '';
 
 export type Question = {
-    id: number;
+    id: string;
     type: QuestionType;
     question_text: string;
-    options: Array<any>;
+    options: Array<Option>;
     description: string;
 }
 
 export type Option = {
     label: string;
-    value: any;
-}
-
-export type MultipleChoiceOption = Option & {
+    value: string;
     nextSection?: string;
 }
 
 export type SurveyParam = {
-    id: number;
-    sections: Array<SectionParam>;
+    surveyId: string;
+    sections: SectionParam;
 }
 
 export type SectionParam = {
-    id: number;
-    questions: Array<QuestionParam>;
+    [key: string]: QuestionParam;
 }
 
 export type QuestionParam = {
-    id: number;
-    answer: any;
+    [key: string]: any;
 }

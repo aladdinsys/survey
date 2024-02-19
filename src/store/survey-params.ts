@@ -2,44 +2,37 @@ import { create } from 'zustand';
 import {SectionParam, Section, QuestionParam} from "@/types/survey";
 
 type SurveyParam = {
-    id: number;
+    surveyId: string;
 
-    setSurveyId: (id: number) => void;
+    setSurveyId: (id: string) => void;
     setSections: (sections: Array<Section>) => void;
 
-    sections: Array<SectionParam>;
-    setQuestion: (sectionId: number, questionId: number, answer: string) => void;
+    sections: SectionParam;
+    setQuestion: (sectionId: string, questionId: string, answer: string) => void;
 }
 
 const useSurveyParamStore = create<SurveyParam>((set) => ({
-    id: 0,
-    sections: [],
+    surveyId: '',
+    sections: {},
 
-    setSurveyId: (id: number) => { set({id: id}); },
+    setSurveyId: (id: string) => { set({surveyId: id}); },
     setSections: (sections: Array<Section>) => {
-        set({sections: sections.map((section) => ({id: section.id, questions: section.questions.map((question) => ({id: question.id, answer: null}))}))});
+        set({
+            sections: sections.reduce((prevSectionParam: SectionParam, section) => {
+                prevSectionParam[section.id] = section.questions.reduce((prevQuestionParam: QuestionParam, question) => {
+                    prevQuestionParam[question.id] = null;
+                    return prevQuestionParam;
+                }, {});
+                return prevSectionParam;
+            }, {})
+        });
     },
-    setQuestion: (sectionId: number, questionId: number, answer: string) => {
-        set((state) => ({
-            sections: state.sections.map((sectionParam) => {
-                if (sectionParam.id === sectionId) {
-                    return {
-                        ...sectionParam,
-                        questions: sectionParam.questions.map((questionParam: QuestionParam) => {
-                            if (questionParam.id === questionId) {
-                                return {
-                                    ...questionParam,
-                                    answer,
-                                };
-                            }
-                            return questionParam;
-                        }),
-                    };
-                }
-                return sectionParam;
-            }),
-        })
-        );
+    setQuestion: (sectionId: string, questionId: string, answer: string) => {
+        set((state) => {
+            const newSections = {...state.sections};
+            newSections[sectionId][questionId] = answer;
+            return {sections: newSections};
+        });
     }
 }));
 export default useSurveyParamStore;

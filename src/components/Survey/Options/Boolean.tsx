@@ -1,10 +1,11 @@
 'use client'
 
-import {MultipleChoiceOption} from "@/types/survey";
+
+import {Option} from "@/types/survey";
 
 type BooleanProps = {
-    options: Array<MultipleChoiceOption>;
-    questionId: number;
+    options: Array<Option>;
+    questionId: string;
     onOptionChange: (value: string) => void;
 }
 
