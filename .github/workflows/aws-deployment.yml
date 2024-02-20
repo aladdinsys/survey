@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           source: ".next/, package.json, package-lock.json, public/, .env.*"
           target: /home/ec2-user/survey
-          rm: ture
+          rm: true
 
       - name: Kill Port
         uses: appleboy/ssh-action@master
