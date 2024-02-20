@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [ 20.x ]
 
     steps:
       - uses: actions/checkout@v3
@@ -24,11 +24,25 @@ jobs:
       - run: npm run build --if-present
 
       - name: copy file via ssh key
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_SSHNAME }}
-          key: ${{ secrets.EC2_PASSWORD }}
+          username: ${{ secrets.EC2_NAME }}
+          key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: "./.next/"
-          target: /home/ec2-user/survey/.next/
+          source: ".next/, package.json, package-lock.json, public/, .env.*"
+          target: /home/ec2-user/survey
+          rm: ture
+
+      - name: Restart Application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_NAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            cd /home/ec2-user/survey/
+            npx kill-port 3000
+            npm install    
+
