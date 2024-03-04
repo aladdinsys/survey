@@ -23,11 +23,12 @@ proj4.defs('EPSG:5174', '+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_
 register(proj4);
 
 type MapComponentProps = {
+    questionId: string;
     center: [number, number] | undefined;
     onAnswerChange?: (value: string) => void;
 }
 
-const MapComponent = ({ center, onAnswerChange }: MapComponentProps ) => {
+const MapComponent = ({ questionId, center, onAnswerChange }: MapComponentProps ) => {
 
     useEffect(() => {
         const vworldKey = 'F79DF30C-7109-30C4-8E1F-1539EF5FC93D';
@@ -50,7 +51,7 @@ const MapComponent = ({ center, onAnswerChange }: MapComponentProps ) => {
                 }),
                 poiLayer,
             ],
-            target: 'map',
+            target: `map_${questionId}`,
             view: new View({
                 projection: 'EPSG:5174',
                 center: fromLonLat(
@@ -107,7 +108,7 @@ const MapComponent = ({ center, onAnswerChange }: MapComponentProps ) => {
 
     return (
         <>
-            <div id={"map"} className={"w-full h-96"}/>
+            <div id={`map_${questionId}`} className={"w-full h-96"}/>
         </>
     )
 

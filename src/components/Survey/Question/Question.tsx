@@ -59,7 +59,7 @@ const Question = ({section, question, onAnswerChange}: QuestionProps) => {
         case `MAP`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <MapComponent center={options?.coordinates} onAnswerChange={handleAnswerChange}/>
+                    <MapComponent questionId={question.id} center={options?.coordinates} onAnswerChange={handleAnswerChange}/>
                 </div>);
         default:
             return (<div>

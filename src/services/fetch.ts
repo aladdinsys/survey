@@ -27,6 +27,7 @@ abstract class HttpMethod {
                     'Content-Type': 'application/json',
                 },
                 body: data ? JSON.stringify(data) : null,
+                cache: 'no-store',
             }).then((response) => {
 
                 if (!response.ok) {
