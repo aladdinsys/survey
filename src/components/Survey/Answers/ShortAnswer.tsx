@@ -1,9 +1,9 @@
 'use client'
 
-type ShortProps = {
+type ShortAnswerProps = {
     onInput: (value: string) => void;
 }
-const ShortAnswer = ({onInput}: Readonly<ShortProps>)=> {
+const ShortAnswer = ({onInput}: Readonly<ShortAnswerProps>)=> {
 
     return (
         <label>

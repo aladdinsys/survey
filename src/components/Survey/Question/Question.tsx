@@ -2,50 +2,64 @@
 
 import React from "react";
 import {Question, Section} from "@/types/survey";
-import FiveLikert from "@/components/Survey/Options/FiveLikert";
-import MultipleChoice from "@/components/Survey/Options/MultipleChoice";
-import Boolean from "@/components/Survey/Options/Boolean";
-import ShortAnswer from "@/components/Survey/Options/ShortAnswer";
-import Essay from "@/components/Survey/Options/Essay";
+import FiveLikert from "@/components/Survey/Answers/FiveLikert";
+import SingleSelection from "@/components/Survey/Answers/SingleSelection";
+import Boolean from "@/components/Survey/Answers/Boolean";
+import ShortAnswer from "@/components/Survey/Answers/ShortAnswer";
+import LongAnswer from "@/components/Survey/Answers/LongAnswer";
+import MapComponent from "@/components/Survey/Answers/Map";
 
 type QuestionProps = {
     section: Section;
     question: Question;
-    onChoiceChange: (sectionId: string, questionId: string, answer: string) => void;
+    onAnswerChange: (sectionId: string, questionId: string, answer: string) => void;
 }
 
-const Question = ({section, question, onChoiceChange}: QuestionProps) => {
+const Question = ({section, question, onAnswerChange}: QuestionProps) => {
 
-    const handleOptionChange = (value: string) => {
-        onChoiceChange(section.id, question.id, value);
+    const handleAnswerChange = (value: string) => {
+        onAnswerChange(section.id, question.id, value);
     };
+
+    const { options } = question;
 
     switch (question.type) {
         case `FIVE-LIKERT`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <FiveLikert questionId={question.id} options={question.options} onOptionChange={handleOptionChange}/>
+                    <FiveLikert questionId={question.id} answers={question.answers} onAnswerChange={handleAnswerChange}/>
                 </div>);
-        case `MULTIPLE_CHOICE`:
+        case `SINGLE_SELECTION`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <MultipleChoice questionId={question.id} options={question.options} onOptionChange={handleOptionChange}/>
+                    <SingleSelection questionId={question.id} answers={question.answers} onAnswerChange={handleAnswerChange}/>
+                </div>
+            );
+        case `MULTIPLE_SELECTION`:
+            return (<div>
+                    <h3>{question.question_text}</h3>
+                    <SingleSelection questionId={question.id} answers={question.answers} onAnswerChange={handleAnswerChange}/>
                 </div>
             );
         case `BOOLEAN`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <Boolean questionId={question.id} options={question.options} onOptionChange={handleOptionChange}/>
+                    <Boolean questionId={question.id} answers={question.answers} onAnswerChange={handleAnswerChange}/>
                 </div>);
-        case `SHORT`:
+        case `SHORT_ANSWER`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <ShortAnswer onInput={handleOptionChange} />
+                    <ShortAnswer onInput={handleAnswerChange} />
                 </div>);
-        case `ESSAY`:
+        case `LONG_ANSWER`:
             return (<div>
                     <h3>{question.question_text}</h3>
-                    <Essay onInput={handleOptionChange}/>
+                    <LongAnswer onInput={handleAnswerChange}/>
+                </div>);
+        case `MAP`:
+            return (<div>
+                    <h3>{question.question_text}</h3>
+                    <MapComponent center={options?.coordinates} onAnswerChange={handleAnswerChange}/>
                 </div>);
         default:
             return (<div>

@@ -6,10 +6,10 @@ import QuestionComponent from "@/components/Survey/Question/Question";
 
 type SectionProps = {
     section: Section;
-    onChoiceChange: (sectionId: string, questionId: string, answer: string) => void;
+    onAnswerChange: (sectionId: string, questionId: string, answer: string) => void;
 }
 
-const Section = ({ section, onChoiceChange }: SectionProps) => {
+const Section = ({ section, onAnswerChange }: SectionProps) => {
 
     return (
         <>
@@ -20,7 +20,7 @@ const Section = ({ section, onChoiceChange }: SectionProps) => {
                     key={question.id}
                     section={section}
                     question={question}
-                    onChoiceChange={onChoiceChange}
+                    onAnswerChange={onAnswerChange}
                 />
             )}
         </>
