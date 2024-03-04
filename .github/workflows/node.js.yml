@@ -29,6 +29,19 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
 
+    - name: Clean Cache
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/user/survey_app/
+          npx kill-port 3000
+          rm -rf .next/cache/*
+
     - name: copy file via ssh password
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -51,7 +64,6 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd /home/user/survey_app/
-          npx kill-port 3000
           npm install
 
     - name: SSH Action
