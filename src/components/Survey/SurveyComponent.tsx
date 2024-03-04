@@ -26,7 +26,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
         setSections(JSON.parse(survey.content));
     }, [setSurveyId, setSections, survey]);
 
-    const onChoiceChange = (sectionId: string, questionId: string, answer: string) => {
+    const onAnswerChange = (sectionId: string, questionId: string, answer: string) => {
         setQuestion(sectionId, questionId, answer);
     }
 
@@ -39,9 +39,9 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
 
             const selectedValue = sections[thisSection.id][question.id];
 
-            const result = question.options.filter((option) => option.value == selectedValue)
-                                .filter((option) => option.nextSection)
-                                .map((option) => option.nextSection! )
+            const result = question.answers.filter((answer) => answer.value == selectedValue)
+                                .filter((answer) => answer.nextSection)
+                                .map((answer) => answer.nextSection! )
                                 .sort((a, b) => Number(a) - Number(b))[0];
 
             return result ? result : acc;
@@ -92,7 +92,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
                 {content.map((section: Section) =>
                     currentSection == section.id &&
                     <div key={section.id} className={`flex flex-col gap-2`}>
-                        <SectionComponent section={section} onChoiceChange={onChoiceChange} />
+                        <SectionComponent section={section} onAnswerChange={onAnswerChange} />
                     </div>
                 )}
             </div>

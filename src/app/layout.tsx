@@ -16,7 +16,7 @@ export default function RootLayout({ children }: Readonly<ChildrenProps>) {
       <html>
           <body className={`h-screen flex flex-col`}>
               <Nav/>
-              <div className={`h-full p-2`}>
+              <div className={`h-full p-2 overflow-y-auto`}>
                   {children}
               </div>
               <MainFooter/>

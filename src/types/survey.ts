@@ -13,17 +13,26 @@ export type Section = {
 }
 
 export type QuestionType =
-    'FIVE-LIKERT' | 'BOOLEAN' | 'SHORT' | 'ESSAY' | 'MULTIPLE_CHOICE' | '';
+    'FIVE-LIKERT' | 'BOOLEAN' |
+    'SHORT_ANSWER' | 'LONG_ANSWER' |
+    'SINGLE_SELECTION' | 'MULTIPLE_SELECTION' |
+    'MAP' |
+    '';
 
 export type Question = {
     id: string;
     type: QuestionType;
     question_text: string;
-    options: Array<Option>;
+    answers: Array<Answer>;
     description: string;
+    options?: Options;
 }
 
-export type Option = {
+export type Options = {
+    coordinates?: [number, number];
+}
+
+export type Answer = {
     label: string;
     value: string;
     nextSection?: string;

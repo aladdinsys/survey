@@ -1,14 +1,14 @@
 'use client'
 
-type EssayProps = {
+type LongAnswerProps = {
     onInput: (value: string) => void;
 }
 
-const Essay = ({onInput}: Readonly<EssayProps>) => {
+const LongAnswer = ({onInput}: Readonly<LongAnswerProps>) => {
 
     return (
         <textarea onInput={(event) => onInput(event.currentTarget.value) } />
     );
 }
 
-export default Essay;
+export default LongAnswer;
