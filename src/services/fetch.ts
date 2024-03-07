@@ -1,6 +1,7 @@
 type HttpMethods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 const baseUrl: string = process.env.SURVEY_API as string;
+const apiKey: string = process.env.SURVEY_API_KEY as string;
 // const baseUrl: string = 'http://aladdinsys.iptime.org:48090';
 
 abstract class HttpMethod {
@@ -19,12 +20,14 @@ abstract class HttpMethod {
     }
 
     async call<T>(path: string, data?: object): Promise<T> {
+        console.log('KEY',`${apiKey}`);
         return new Promise<T>((resolve, reject) => {
             fetch(`${baseUrl}${path}`, {
                 method: this.method,
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    'API-KEY': apiKey,
                 },
                 body: data ? JSON.stringify(data) : null,
                 cache: 'no-store',
@@ -39,6 +42,8 @@ abstract class HttpMethod {
                         console.error(response);
                     }
                 }
+
+                console.log(response);
 
                 resolve(response.json() as T);
             }).catch((error) => {
