@@ -4,7 +4,7 @@ import React, {useEffect} from 'react'
 import 'ol/ol.css'
 import {Feature, Map, View} from 'ol'
 import { defaults as defaultControls, FullScreen } from 'ol/control'
-import { fromLonLat } from 'ol/proj'
+import {fromLonLat, transform} from 'ol/proj'
 import { Tile as TileLayer } from 'ol/layer'
 import { XYZ } from 'ol/source'
 import proj4 from 'proj4';
@@ -53,10 +53,8 @@ const MapComponent = ({ questionId, center, onAnswerChange }: MapComponentProps 
             ],
             target: `map_${questionId}`,
             view: new View({
-                projection: 'EPSG:5174',
                 center: fromLonLat(
                     center ? center : [126.784587, 37.645143],
-                    'EPSG:5174'
                 ),
                 zoom: 15,
             }),
@@ -65,12 +63,13 @@ const MapComponent = ({ questionId, center, onAnswerChange }: MapComponentProps 
         map.on('click', (event) => {
 
             const clickedCoord = event.coordinate;
+            const transformedCoord =  transform(clickedCoord, 'EPSG:3857', 'EPSG:5174');
 
             if (onAnswerChange) {
 
                 const param = {
-                    x: clickedCoord[0],
-                    y: clickedCoord[1]
+                    x: transformedCoord[0],
+                    y: transformedCoord[1]
                 }
 
                 onAnswerChange(JSON.stringify(param));
