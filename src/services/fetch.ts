@@ -20,7 +20,6 @@ abstract class HttpMethod {
     }
 
     async call<T>(path: string, data?: object): Promise<T> {
-        console.log('KEY',`${apiKey}`);
         return new Promise<T>((resolve, reject) => {
             fetch(`${baseUrl}${path}`, {
                 method: this.method,
@@ -42,8 +41,6 @@ abstract class HttpMethod {
                         console.error(response);
                     }
                 }
-
-                console.log(response);
 
                 resolve(response.json() as T);
             }).catch((error) => {

@@ -22,6 +22,8 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
     const content: Array<Section> = JSON.parse(survey.content);
 
     useEffect(() => {
+        setCurrentSection(content[0].id);
+
         setSurveyId(survey.id);
         setSections(JSON.parse(survey.content));
     }, [setSurveyId, setSections, survey]);
@@ -32,23 +34,16 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
 
     const getNextSection = () => {
         const currentIndex = content.findIndex((section: Section) => section.id == currentSection);
-
         const thisSection = content[currentIndex];
-
         return thisSection.questions.reduce((acc, question) => {
-
             const selectedValue = sections[thisSection.id][question.id];
-
             const result = question.answers.filter((answer) => answer.value == selectedValue)
                                 .filter((answer) => answer.nextSection)
                                 .map((answer) => answer.nextSection! )
                                 .sort((a, b) => Number(a) - Number(b))[0];
 
             return result ? result : acc;
-
         }, content[currentIndex + 1] ? content[currentIndex + 1].id : currentSection);
-
-
     }
 
     const toPrev = () => {
@@ -75,9 +70,7 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
                 body: JSON.stringify(survey),
             });
 
-
             const updatedResult = await response.json();
-            console.log(updatedResult);
         } catch (error) {
             console.error(error);
         }
@@ -97,8 +90,8 @@ const SurveyComponent: FC<SurveyProps> = ({survey}) => {
                 )}
             </div>
             <div className={`flex flex-row gap-2`}>
-                <ProceedButton text={'이전'} handle={toPrev}/>
-                <ProceedButton text={'다음'} handle={toNext}/>
+                <ProceedButton text={'이전'} className={currentSection === content[0].id ? `hidden` : `visible`} handle={toPrev}/>
+                <ProceedButton text={'다음'} className={currentSection === content[content.length - 1].id ? `hidden` : 'visible' } handle={toNext}/>
                 <ProceedButton text={"보내기"} className={currentSection !== content[content.length - 1].id ? `hidden` : `bg-green-500`} handle={onSubmit}/>
             </div>
         </main>

@@ -11,7 +11,7 @@ type SectionState = {
 };
 
 const useSectionStateStore = create<SectionState>((set) => ({
-    currentSection: '1',
+    currentSection: '',
     prevSections: [],
 
     setCurrentSection: (currentSection: string) => set({ currentSection }),
